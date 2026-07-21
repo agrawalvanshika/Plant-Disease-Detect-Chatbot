@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Plant Disease Detection System - Project Documentation</title>
+<style>
+@media print { body { font-size: 11pt; } .page-break { page-break-before: always; } }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', Arial, sans-serif; color: #1a1a2e; line-height: 1.7; padding: 40px; max-width: 900px; margin: 0 auto; }
+h1 { font-size: 2.2em; color: #0f172a; border-bottom: 3px solid #10b981; padding-bottom: 12px; margin-bottom: 8px; }
+h2 { font-size: 1.5em; color: #10b981; margin-top: 35px; margin-bottom: 12px; border-left: 4px solid #10b981; padding-left: 12px; }
+h3 { font-size: 1.15em; color: #334155; margin-top: 20px; margin-bottom: 8px; }
+p, li { margin-bottom: 6px; }
+ul, ol { padding-left: 24px; }
+table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.95em; }
+th, td { border: 1px solid #cbd5e1; padding: 10px 14px; text-align: left; }
+th { background: #0f172a; color: white; }
+tr:nth-child(even) { background: #f1f5f9; }
+code { background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
+.cover { text-align: center; padding: 80px 20px; margin-bottom: 40px; background: linear-gradient(135deg, #0f172a, #1e293b); color: white; border-radius: 16px; }
+.cover h1 { color: white; border: none; font-size: 2.8em; }
+.cover p { color: #94a3b8; font-size: 1.1em; margin-top: 10px; }
+.cover .author { color: #10b981; font-size: 1.3em; margin-top: 24px; font-weight: 600; }
+.flowchart { background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 12px; padding: 24px; margin: 16px 0; }
+.flow-box { background: white; border: 2px solid #10b981; border-radius: 10px; padding: 14px 20px; margin: 8px auto; max-width: 500px; text-align: center; font-weight: 600; }
+.flow-arrow { text-align: center; font-size: 1.8em; color: #10b981; margin: 4px 0; }
+.flow-row { display: flex; gap: 16px; justify-content: center; margin: 8px 0; }
+.flow-row .flow-box { flex: 1; max-width: 240px; font-size: 0.9em; }
+.highlight { background: #f0fdf4; border-left: 4px solid #10b981; padding: 12px 16px; border-radius: 6px; margin: 12px 0; }
+.warn { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 12px 16px; border-radius: 6px; margin: 12px 0; }
+.section-num { color: #10b981; }
+.toc a { color: #0f172a; text-decoration: none; }
+.toc a:hover { color: #10b981; }
+.toc li { margin-bottom: 4px; }
+.print-btn { position: fixed; bottom: 20px; right: 20px; padding: 14px 28px; background: #10b981; color: white; border: none; border-radius: 10px; font-size: 1.1em; font-weight: 700; cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.2); z-index: 999; }
+.print-btn:hover { background: #059669; }
+@media print { .print-btn { display: none; } }
+</style>
+</head>
+<body>
+
+<button class="print-btn" onclick="window.print()">🖨️ Save as PDF</button>
+
+<!-- COVER PAGE -->
+<div class="cover">
+<div style="font-size:4em; margin-bottom:20px;">🌿</div>
+<h1>Plant Disease Detection System</h1>
+<p>AI-Powered Agricultural Diagnostics — Project Documentation</p>
+<div class="author">Developed by Vanshika</div>
+<p style="margin-top:30px; color:#64748b;">Version 2.0.0 | 2025</p>
+</div>
+
+<!-- TABLE OF CONTENTS -->
+<h2><span class="section-num">0.</span> Table of Contents</h2>
+<ol class="toc">
+<li><a href="#s1">Project Overview</a></li>
+<li><a href="#s2">Technology Stack</a></li>
+<li><a href="#s3">Project Structure</a></li>
+<li><a href="#s4">Application Flow (Flowcharts)</a></li>
+<li><a href="#s5">ML Models — Architecture & Data Flow</a></li>
+<li><a href="#s6">Model Files — Where Generated & Where Used</a></li>
+<li><a href="#s7">Backend API Endpoints</a></li>
+<li><a href="#s8">Frontend Features</a></li>
+<li><a href="#s9">Supported Plants & Diseases</a></li>
+<li><a href="#s10">How to Run</a></li>
+</ol>
+
+<div class="page-break"></div>
+
+<!-- SECTION 1 -->
+<h2 id="s1"><span class="section-num">1.</span> Project Overview</h2>
+<p>The <strong>Plant Disease Detection System</strong> is an AI-powered web application that helps farmers and researchers identify plant diseases through two methods:</p>
+<ul>
+<li><strong>Image-Based Detection:</strong> Upload a photo of a plant leaf → CNN model identifies the disease</li>
+<li><strong>Text-Based Detection:</strong> Describe symptoms in natural language → Transformer model predicts the disease</li>
+</ul>
+<p>For each detected disease, the system provides comprehensive <strong>treatment recommendations</strong>, <strong>prevention methods</strong>, and <strong>organic solutions</strong>.</p>
+
+<div class="highlight">
+<strong>Key Numbers:</strong> 38 disease classes | 14 plant species | 2 ML models | 100% local processing (no external APIs)
+</div>
+
+<!-- SECTION 2 -->
+<h2 id="s2"><span class="section-num">2.</span> Technology Stack</h2>
+<table>
+<tr><th>Layer</th><th>Technology</th><th>Purpose</th></tr>
+<tr><td>Backend Framework</td><td>FastAPI (Python)</td><td>REST API server, serves frontend</td></tr>
+<tr><td>Web Server</td><td>Uvicorn</td><td>ASGI server for FastAPI</td></tr>
+<tr><td>Image Model</td><td>PyTorch (Custom CNN)</td><td>Image classification (38 classes)</td></tr>
+<tr><td>Text Model</td><td>HuggingFace Transformers (DistilBERT)</td><td>Text classification (15 classes)</td></tr>
+<tr><td>Image Processing</td><td>Pillow, TorchVision</td><td>Resize, normalize images</td></tr>
+<tr><td>Label Decoding</td><td>scikit-learn (LabelEncoder)</td><td>Map text model IDs to disease names</td></tr>
+<tr><td>Frontend</td><td>HTML5, CSS3, Vanilla JavaScript</td><td>User interface</td></tr>
+<tr><td>Data Storage</td><td>Browser LocalStorage</td><td>Prediction history (client-side)</td></tr>
+</table>
+
+<!-- SECTION 3 -->
+<h2 id="s3"><span class="section-num">3.</span> Project Structure</h2>
+<table>
+<tr><th>Path</th><th>Description</th></tr>
+<tr><td><code>backend/main.py</code></td><td>FastAPI server — loads models, handles API requests</td></tr>
+<tr><td><code>backend/models/PlantDiseaseModel.py</code></td><td>CNN architecture definition (3 conv layers → FC)</td></tr>
+<tr><td><code>backend/models/plant_disease_cnn.pth</code></td><td>Trained CNN weights (3.3 MB)</td></tr>
+<tr><td><code>backend/disease_detection_model/</code></td><td>DistilBERT model files (268 MB total)</td></tr>
+<tr><td><code>backend/disease_recommendations.json</code></td><td>Treatment database for all 38 diseases</td></tr>
+<tr><td><code>backend/image_class_names.json</code></td><td>38 class label names for image model</td></tr>
+<tr><td><code>backend/text_label_encoder.joblib</code></td><td>Label encoder to decode text model outputs</td></tr>
+<tr><td><code>frontend/index.html</code></td><td>Main web page</td></tr>
+<tr><td><code>frontend/css/style.css</code></td><td>All styles (light/dark mode)</td></tr>
+<tr><td><code>frontend/js/app.js</code></td><td>Frontend logic (API calls, history, UI)</td></tr>
+<tr><td><code>notebooks/train_image_model.ipynb</code></td><td>Jupyter notebook — CNN training</td></tr>
+<tr><td><code>notebooks/train_text_model.ipynb</code></td><td>Jupyter notebook — DistilBERT fine-tuning</td></tr>
+<tr><td><code>start.bat</code></td><td>Double-click launcher for Windows</td></tr>
+</table>
+
+<div class="page-break"></div>
+
+<!-- SECTION 4: FLOWCHARTS -->
+<h2 id="s4"><span class="section-num">4.</span> Application Flow (Flowcharts)</h2>
+
+<h3>4.1 Overall Application Flow</h3>
+<div class="flowchart">
+<div class="flow-box" style="background:#0f172a; color:white;">User opens http://localhost:8000</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-box">Loading Screen — polls /health-check every 1 second</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-box">Server responds: models_loaded = true</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-box">Loading screen dismissed → Main UI shown</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-row">
+<div class="flow-box" style="border-color:#3b82f6;">📷 Image Upload Path</div>
+<div class="flow-box" style="border-color:#f59e0b;">📝 Text Input Path</div>
+</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-box">Disease Prediction + Confidence Score</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-box">💊 Treatment Recommendations Displayed</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-box" style="background:#f0fdf4;">Saved to History (LocalStorage)</div>
+</div>
+
+<h3>4.2 Image Prediction Flow</h3>
+<div class="flowchart">
+<div class="flow-box">User selects image file</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-box">Image preview shown in browser</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-box">Click "Analyze Image" → POST /api/image-prediction</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-box">Backend: PIL opens image → converts to RGB</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-box">Resize to 224×224 → ToTensor → Normalize (mean/std)</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-box">CNN forward pass → Softmax → argmax</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-box">Map index → class name (image_class_names.json)</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-box">Lookup recommendations (disease_recommendations.json)</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-box" style="background:#f0fdf4;">Return: { predicted_class, confidence, recommendations }</div>
+</div>
+
+<h3>4.3 Text Prediction Flow</h3>
+<div class="flowchart">
+<div class="flow-box">User types symptom description</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-box">Click "Analyze Symptoms" → POST /api/text-prediction</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-box">Backend: HuggingFace pipeline("text-classification")</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-box">DistilBERT tokenizer → model inference</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-box">Output: LABEL_X (numeric ID) + confidence score</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-box">LabelEncoder.inverse_transform → disease name</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-box">Lookup recommendations (disease_recommendations.json)</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-box" style="background:#f0fdf4;">Return: { predicted_disease, confidence, recommendations }</div>
+</div>
+
+<h3>4.4 Server Startup Flow</h3>
+<div class="flowchart">
+<div class="flow-box" style="background:#0f172a; color:white;">start.bat → python backend/main.py</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-box">FastAPI app created, CORS enabled, frontend mounted at /static</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-box">Lifespan: _load_models() called</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-box">Load DistilBERT text model (268 MB) → pipeline ready</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-box">Load LabelEncoder from .joblib file</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-box">Load CNN image model → load .pth weights → eval mode</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-box" style="background:#f0fdf4;">models_loaded = True → Uvicorn serves on port 8000</div>
+</div>
+
+<div class="page-break"></div>
+
+<!-- SECTION 5 -->
+<h2 id="s5"><span class="section-num">5.</span> ML Models — Architecture & Data Flow</h2>
+
+<h3>5.1 Image Model — Custom CNN</h3>
+<table>
+<tr><th>Property</th><th>Detail</th></tr>
+<tr><td>Architecture</td><td>3 Convolutional Blocks + Fully Connected Layers</td></tr>
+<tr><td>Input</td><td>224 × 224 RGB image (normalized)</td></tr>
+<tr><td>Conv Block 1</td><td>Conv2d(3→16, 3×3) → ReLU → MaxPool2d(2×2)</td></tr>
+<tr><td>Conv Block 2</td><td>Conv2d(16→32, 3×3) → ReLU → MaxPool2d(2×2)</td></tr>
+<tr><td>Conv Block 3</td><td>Conv2d(32→64, 3×3) → ReLU → MaxPool2d(2×2)</td></tr>
+<tr><td>Pooling</td><td>AdaptiveAvgPool2d(7×7)</td></tr>
+<tr><td>FC Layers</td><td>Flatten → Linear(3136→256) → ReLU → Dropout(0.5) → Linear(256→38)</td></tr>
+<tr><td>Output</td><td>38 class probabilities (via Softmax)</td></tr>
+<tr><td>Normalization</td><td>mean=[0.4759, 0.5003, 0.4266], std=[0.2102, 0.1888, 0.2262]</td></tr>
+<tr><td>Training Dataset</td><td>New Plant Diseases Dataset (Augmented)</td></tr>
+<tr><td>Weight File Size</td><td>3.3 MB</td></tr>
+</table>
+
+<h3>5.2 Text Model — DistilBERT</h3>
+<table>
+<tr><th>Property</th><th>Detail</th></tr>
+<tr><td>Architecture</td><td>DistilBertForSequenceClassification</td></tr>
+<tr><td>Base Model</td><td>DistilBERT (6 layers, 768 dim, 12 attention heads)</td></tr>
+<tr><td>Input</td><td>Natural language text (max 512 tokens)</td></tr>
+<tr><td>Tokenizer</td><td>WordPiece (30,522 vocabulary)</td></tr>
+<tr><td>Output</td><td>15 class labels (LABEL_0 to LABEL_14)</td></tr>
+<tr><td>Label Decoding</td><td>scikit-learn LabelEncoder (.joblib file)</td></tr>
+<tr><td>Activation</td><td>GELU</td></tr>
+<tr><td>Dropout</td><td>0.2 (classification), 0.1 (attention)</td></tr>
+<tr><td>Model File Size</td><td>268 MB (model.safetensors)</td></tr>
+</table>
+
+<div class="warn">
+<strong>Note:</strong> The image model classifies into 38 classes (all plant+disease combinations). The text model classifies into 15 classes (disease types only). The LabelEncoder maps the text model's numeric output IDs back to human-readable disease names.
+</div>
+
+<div class="page-break"></div>
+
+<!-- SECTION 6 -->
+<h2 id="s6"><span class="section-num">6.</span> Model Files — Where Generated & Where Used</h2>
+
+<table>
+<tr><th>File</th><th>Generated By</th><th>Used By</th><th>Purpose</th></tr>
+<tr>
+<td><code>models/plant_disease_cnn.pth</code></td>
+<td><code>notebooks/train_image_model.ipynb</code><br>(PyTorch training loop → torch.save)</td>
+<td><code>backend/main.py</code><br>(torch.load → model.load_state_dict)</td>
+<td>Trained CNN weights for image classification</td>
+</tr>
+<tr>
+<td><code>models/PlantDiseaseModel.py</code></td>
+<td>Hand-written architecture definition</td>
+<td><code>backend/main.py</code><br>(imports PlantDiseaseModel class)</td>
+<td>Defines the CNN network structure</td>
+</tr>
+<tr>
+<td><code>disease_detection_model/model.safetensors</code></td>
+<td><code>notebooks/train_text_model.ipynb</code><br>(HuggingFace Trainer → model.save_pretrained)</td>
+<td><code>backend/main.py</code><br>(pipeline("text-classification", model=path))</td>
+<td>Fine-tuned DistilBERT weights</td>
+</tr>
+<tr>
+<td><code>disease_detection_model/tokenizer.json</code></td>
+<td><code>notebooks/train_text_model.ipynb</code><br>(tokenizer.save_pretrained)</td>
+<td>HuggingFace pipeline (auto-loaded)</td>
+<td>WordPiece tokenizer for text preprocessing</td>
+</tr>
+<tr>
+<td><code>disease_detection_model/config.json</code></td>
+<td><code>notebooks/train_text_model.ipynb</code><br>(model.save_pretrained)</td>
+<td>HuggingFace pipeline (auto-loaded)</td>
+<td>Model architecture config (layers, dims, classes)</td>
+</tr>
+<tr>
+<td><code>text_label_encoder.joblib</code></td>
+<td><code>notebooks/train_text_model.ipynb</code><br>(joblib.dump(label_encoder))</td>
+<td><code>backend/main.py</code><br>(joblib.load → inverse_transform)</td>
+<td>Maps numeric LABEL_X → disease name string</td>
+</tr>
+<tr>
+<td><code>image_class_names.json</code></td>
+<td><code>notebooks/train_image_model.ipynb</code><br>(json.dump(class_names))</td>
+<td><code>backend/main.py</code><br>(CLASS_NAMES[predicted_idx])</td>
+<td>Maps CNN output index → disease class name</td>
+</tr>
+<tr>
+<td><code>disease_recommendations.json</code></td>
+<td>Manually curated (hand-written)</td>
+<td><code>backend/main.py</code><br>(lookup after prediction)</td>
+<td>Treatment, prevention, organic solutions for each disease</td>
+</tr>
+</table>
+
+<h3>6.1 Data Flow Diagram: File Dependencies</h3>
+<div class="flowchart">
+<div class="flow-row">
+<div class="flow-box" style="border-color:#3b82f6; background:#eff6ff;">📓 train_image_model.ipynb</div>
+<div class="flow-box" style="border-color:#f59e0b; background:#fef3c7;">📓 train_text_model.ipynb</div>
+</div>
+<div class="flow-arrow">↓ generates ↓</div>
+<div class="flow-row">
+<div class="flow-box" style="font-size:0.85em;">plant_disease_cnn.pth<br>image_class_names.json</div>
+<div class="flow-box" style="font-size:0.85em;">model.safetensors + tokenizer<br>text_label_encoder.joblib</div>
+</div>
+<div class="flow-arrow">↓ loaded by ↓</div>
+<div class="flow-box" style="background:#0f172a; color:white;">backend/main.py (FastAPI Server)</div>
+<div class="flow-arrow">↓ serves ↓</div>
+<div class="flow-box">frontend/index.html + app.js + style.css</div>
+<div class="flow-arrow">↓ accessed by ↓</div>
+<div class="flow-box" style="background:#f0fdf4;">🌐 User's Browser at http://localhost:8000</div>
+</div>
+
+<div class="page-break"></div>
+
+<!-- SECTION 7 -->
+<h2 id="s7"><span class="section-num">7.</span> Backend API Endpoints</h2>
+<table>
+<tr><th>Method</th><th>Endpoint</th><th>Description</th><th>Input</th><th>Output</th></tr>
+<tr><td>GET</td><td><code>/</code></td><td>Serve web app</td><td>—</td><td>HTML page</td></tr>
+<tr><td>GET</td><td><code>/health-check</code></td><td>Server & model status</td><td>—</td><td>{ status, models_loaded, error }</td></tr>
+<tr><td>GET</td><td><code>/api/diseases</code></td><td>List all 38 classes</td><td>—</td><td>{ diseases: [...] }</td></tr>
+<tr><td>GET</td><td><code>/api/recommendations/{name}</code></td><td>Get treatment info</td><td>Disease name</td><td>{ symptoms, treatment, prevention, ... }</td></tr>
+<tr><td>POST</td><td><code>/api/image-prediction</code></td><td>Analyze plant image</td><td>Image file (multipart)</td><td>{ predicted_class, confidence, recommendations }</td></tr>
+<tr><td>POST</td><td><code>/api/text-prediction</code></td><td>Analyze symptoms text</td><td>{ input: "text" }</td><td>{ predicted_disease, confidence, recommendations }</td></tr>
+</table>
+
+<!-- SECTION 8 -->
+<h2 id="s8"><span class="section-num">8.</span> Frontend Features</h2>
+<ul>
+<li>📷 <strong>Image Upload & Preview</strong> — select a plant photo, see preview before analysis</li>
+<li>📝 <strong>Text Symptom Input</strong> — describe symptoms in natural language</li>
+<li>💊 <strong>Treatment Recommendations</strong> — disease info, symptoms, treatment, prevention, organic solutions</li>
+<li>📊 <strong>Stats Dashboard</strong> — total predictions, average confidence, today's count</li>
+<li>📜 <strong>Prediction History</strong> — last 50 predictions stored in LocalStorage</li>
+<li>💾 <strong>Export Data</strong> — download history as JSON file</li>
+<li>🌙 <strong>Dark Mode</strong> — toggle button + keyboard shortcut (Ctrl+D)</li>
+<li>⏳ <strong>Smart Loading Screen</strong> — polls server until models are actually loaded</li>
+<li>🍞 <strong>Toast Notifications</strong> — feedback for actions</li>
+<li>ℹ️ <strong>About Modal</strong> — project info and credits</li>
+</ul>
+
+<!-- SECTION 9 -->
+<h2 id="s9"><span class="section-num">9.</span> Supported Plants & Diseases (38 Classes)</h2>
+<table>
+<tr><th>Plant</th><th>Diseases Detected</th></tr>
+<tr><td>Apple</td><td>Apple Scab, Black Rot, Cedar Apple Rust, Healthy</td></tr>
+<tr><td>Blueberry</td><td>Healthy</td></tr>
+<tr><td>Cherry</td><td>Powdery Mildew, Healthy</td></tr>
+<tr><td>Corn (Maize)</td><td>Gray Leaf Spot, Common Rust, Northern Leaf Blight, Healthy</td></tr>
+<tr><td>Grape</td><td>Black Rot, Esca (Black Measles), Leaf Blight, Healthy</td></tr>
+<tr><td>Orange</td><td>Citrus Greening (Huanglongbing)</td></tr>
+<tr><td>Peach</td><td>Bacterial Spot, Healthy</td></tr>
+<tr><td>Pepper (Bell)</td><td>Bacterial Spot, Healthy</td></tr>
+<tr><td>Potato</td><td>Early Blight, Late Blight, Healthy</td></tr>
+<tr><td>Raspberry</td><td>Healthy</td></tr>
+<tr><td>Soybean</td><td>Healthy</td></tr>
+<tr><td>Squash</td><td>Powdery Mildew</td></tr>
+<tr><td>Strawberry</td><td>Leaf Scorch, Healthy</td></tr>
+<tr><td>Tomato</td><td>Bacterial Spot, Early Blight, Late Blight, Leaf Mold, Septoria Leaf Spot, Spider Mites, Target Spot, Yellow Leaf Curl Virus, Mosaic Virus, Healthy</td></tr>
+</table>
+
+<!-- SECTION 10 -->
+<h2 id="s10"><span class="section-num">10.</span> How to Run</h2>
+<h3>Quick Start</h3>
+<p>Double-click <code>start.bat</code> — it auto-starts the server and opens the browser.</p>
+<h3>Manual Start</h3>
+<ol>
+<li>Open Command Prompt or PowerShell</li>
+<li><code>cd "c:\Users\vansh\Downloads\plant diease project"</code></li>
+<li><code>.venv\Scripts\python.exe backend\main.py</code></li>
+<li>Open <strong>http://localhost:8000</strong> in your browser</li>
+<li>Wait for loading screen to dismiss (models take ~30-60 seconds to load)</li>
+</ol>
+
+<div class="highlight">
+<strong>Requirements:</strong> Python 3.11 | All dependencies installed in .venv via <code>pip install -r backend/requirements.txt</code>
+</div>
+
+<hr style="margin-top:50px; border-color:#e2e8f0;">
+<p style="text-align:center; color:#94a3b8; margin-top:20px;">
+Plant Disease Detection System — Project Documentation<br>
+Developed with ❤️ by <strong style="color:#10b981;">Vanshika</strong> | Version 2.0.0 | © 2025
+</p>
+
+</body>
+</html>
