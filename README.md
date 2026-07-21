@@ -137,9 +137,9 @@ This project is intended for educational and research purposes.
 - React.js
 - FastAPI
 
-**GitHub:** https://github.com/<your-username>
+**GitHub:** https://github.com/agrawalvanshika
 
-**LinkedIn:** https://linkedin.com/in/<your-linkedin-username>
+**LinkedIn:** https://linkedin.com/in/vanshika-agrawal-3193b22a3/
 
 ---
 
