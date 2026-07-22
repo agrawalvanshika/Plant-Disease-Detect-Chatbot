@@ -1,4 +1,4 @@
-# 🌱 AI Plant Disease Detection Chatbot
+# 🌱 AI Plant Disease Detection ChatBot
 
 An AI-powered web application that detects plant diseases from leaf images using Deep Learning and provides disease diagnosis, treatment recommendations, and preventive measures through an interactive chatbot.
 
